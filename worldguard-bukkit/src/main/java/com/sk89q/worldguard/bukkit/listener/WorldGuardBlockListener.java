@@ -130,6 +130,9 @@ public class WorldGuardBlockListener implements Listener {
      */
     @EventHandler(ignoreCancelled = true)
     public void onBlockFromTo(BlockFromToEvent event) {
+
+        if(EventAbstractionListener.shouldBlazeSkyblockCancel(event.getBlock().getLocation())) return;
+
         World world = event.getBlock().getWorld();
         Block blockFrom = event.getBlock();
         Block blockTo = event.getToBlock();
@@ -378,6 +381,9 @@ public class WorldGuardBlockListener implements Listener {
      */
     @EventHandler(ignoreCancelled = true)
     public void onBlockPhysics(BlockPhysicsEvent event) {
+
+        if(EventAbstractionListener.shouldBlazeSkyblockCancel(event.getBlock().getLocation())) return;
+
         ConfigurationManager cfg = WorldGuard.getInstance().getPlatform().getGlobalStateManager();
         WorldConfiguration wcfg = getWorldConfig(event.getBlock().getWorld());
 
@@ -495,6 +501,9 @@ public class WorldGuardBlockListener implements Listener {
      */
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void onBlockForm(BlockFormEvent event) {
+
+        if(EventAbstractionListener.shouldBlazeSkyblockCancel(event.getBlock().getLocation())) return;
+
         ConfigurationManager cfg = WorldGuard.getInstance().getPlatform().getGlobalStateManager();
         WorldConfiguration wcfg = getWorldConfig(event.getBlock().getWorld());
 
@@ -618,6 +627,9 @@ public class WorldGuardBlockListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void onBlockGrow(BlockGrowEvent event) {
+
+        if(EventAbstractionListener.shouldBlazeSkyblockCancel(event.getBlock().getLocation())) return;
+
         Location loc = event.getBlock().getLocation();
         final Material type = event.getNewState().getType();
 

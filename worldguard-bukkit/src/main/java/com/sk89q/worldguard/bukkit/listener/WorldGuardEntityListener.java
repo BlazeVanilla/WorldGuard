@@ -614,6 +614,9 @@ public class WorldGuardEntityListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void onCreatureSpawn(CreatureSpawnEvent event) {
+
+        if(EventAbstractionListener.shouldBlazeSkyblockCancel(event.getLocation())) return;
+
         ConfigurationManager cfg = WorldGuard.getInstance().getPlatform().getGlobalStateManager();
 
         if (cfg.activityHaltToggle) {

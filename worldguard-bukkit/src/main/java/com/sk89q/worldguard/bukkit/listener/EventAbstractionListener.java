@@ -206,6 +206,9 @@ public class EventAbstractionListener extends AbstractListener {
 
     @EventHandler(ignoreCancelled = true)
     public void onBlockPlace(BlockPlaceEvent event) {
+
+        if(shouldBlazeSkyblockCancel(event.getBlock().getLocation())) return;
+
         if (event instanceof BlockMultiPlaceEvent) return;
         BlockState previousState = event.getBlockReplacedState();
 
@@ -261,6 +264,9 @@ public class EventAbstractionListener extends AbstractListener {
 
     @EventHandler(ignoreCancelled = true)
     public void onStructureGrowEvent(StructureGrowEvent event) {
+
+        if(shouldBlazeSkyblockCancel(event.getLocation())) return;
+
         int originalCount = event.getBlocks().size();
 
         Player player = event.getPlayer();
@@ -391,6 +397,9 @@ public class EventAbstractionListener extends AbstractListener {
 
     @EventHandler(ignoreCancelled = true)
     public void onBlockPistonExtend(BlockPistonExtendEvent event) {
+
+        if(shouldBlazeSkyblockCancel(event.getBlock().getLocation())) return;
+
         EventDebounce.Entry entry = pistonExtendDebounce.getIfNotPresent(new BlockPistonExtendKey(event), event);
         if (entry != null) {
             Cause cause = create(event.getBlock());
@@ -439,6 +448,9 @@ public class EventAbstractionListener extends AbstractListener {
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
+
+        if(EventAbstractionListener.shouldBlazeSkyblockCancel(event.getPlayer().getLocation())) return;
+
         Player player = event.getPlayer();
         @Nullable ItemStack item = event.getItem();
         Block clicked = event.getClickedBlock();
@@ -1235,6 +1247,16 @@ public class EventAbstractionListener extends AbstractListener {
         if (WorldGuard.getInstance().getPlatform().getGlobalStateManager().particleEffects) {
             location.getWorld().playEffect(location, Effect.SMOKE, BlockFace.UP);
         }
+    }
+
+    public static boolean shouldBlazeSkyblockCancel(Location location) {
+        if(location.getWorld().getName().equals("skyblock_world") ||
+        location.getWorld().getName().equals("skyblock_world_nether") ||
+        location.getWorld().getName().equals("skyblock_world_the_end")) {
+            return true;
+        }
+
+        return false;
     }
 
 }
